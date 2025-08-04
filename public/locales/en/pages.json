@@ -1,0 +1,187 @@
+{
+  "home": {
+    "hero": {
+      "headline": "Ignite Your Brand's Digital Presence",
+      "subheading": "We're a collective of experienced marketing professionals from Egypt, ready to transform your business with innovative digital strategies that drive real results.",
+      "primaryCTA": "Start Your Free Trial",
+      "secondaryCTA": "View Our Work"
+    },
+    "stats": {
+      "title": "Our Impact in Numbers",
+      "subtitle": "Proven results that speak for themselves"
+    },
+    "services": {
+      "title": "Our Services",
+      "subtitle": "Comprehensive marketing solutions tailored to your needs",
+      "viewAll": "View All Services"
+    },
+    "portfolio": {
+      "title": "Featured Projects",
+      "subtitle": "Discover how we've helped businesses grow",
+      "viewAll": "View All Projects"
+    },
+    "testimonials": {
+      "title": "What Our Clients Say",
+      "subtitle": "Real feedback from real clients"
+    },
+    "cta": {
+      "title": "Ready to Ignite Your Success?",
+      "subtitle": "Let's discuss how we can help your business grow",
+      "button": "Get Started Today"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "About Ignite Marketing Team",
+      "subtitle": "A collective of passionate professionals dedicated to your success"
+    },
+    "story": {
+      "title": "Our Story",
+      "content": "Founded in 2020, Ignite Marketing Team was born from a vision to bring together Egypt's most talented marketing professionals. We believe in the power of collaboration and collective expertise to deliver exceptional results for our clients."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "content": "To empower Egyptian businesses with innovative digital marketing strategies that drive growth, increase brand awareness, and deliver measurable ROI."
+    },
+    "values": {
+      "title": "Our Values",
+      "innovation": {
+        "title": "Innovation",
+        "description": "We stay ahead of digital trends and technologies"
+      },
+      "excellence": {
+        "title": "Excellence",
+        "description": "We deliver exceptional quality in everything we do"
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "description": "We work together to achieve the best results"
+      },
+      "integrity": {
+        "title": "Integrity",
+        "description": "We build trust through honest, transparent relationships"
+      }
+    },
+    "achievements": {
+      "title": "Our Achievements",
+      "subtitle": "Milestones that define our journey"
+    }
+  },
+  "services": {
+    "hero": {
+      "title": "Our Services",
+      "subtitle": "Comprehensive marketing solutions for modern businesses"
+    },
+    "overview": {
+      "title": "What We Offer",
+      "subtitle": "From strategy to execution, we handle every aspect of your digital marketing"
+    },
+    "pricing": {
+      "title": "Transparent Pricing",
+      "subtitle": "Clear, competitive pricing with no hidden fees"
+    },
+    "process": {
+      "title": "Our Process",
+      "step1": {
+        "title": "Discovery",
+        "description": "We analyze your business, goals, and target audience"
+      },
+      "step2": {
+        "title": "Strategy",
+        "description": "We develop a customized marketing strategy"
+      },
+      "step3": {
+        "title": "Execution",
+        "description": "We implement and optimize your campaigns"
+      },
+      "step4": {
+        "title": "Results",
+        "description": "We measure and report on your success"
+      }
+    }
+  },
+  "portfolio": {
+    "hero": {
+      "title": "Our Portfolio",
+      "subtitle": "Showcasing successful projects and real results"
+    },
+    "filters": {
+      "title": "Filter Projects",
+      "all": "All Projects",
+      "branding": "Branding",
+      "webDesign": "Web Design",
+      "digitalMarketing": "Digital Marketing",
+      "socialMedia": "Social Media",
+      "ecommerce": "E-commerce"
+    },
+    "caseStudy": {
+      "challenge": "The Challenge",
+      "solution": "Our Solution",
+      "results": "Results Achieved",
+      "technologies": "Technologies Used",
+      "testimonial": "Client Testimonial",
+      "relatedProjects": "Related Projects"
+    }
+  },
+  "team": {
+    "hero": {
+      "title": "Meet Our Team",
+      "subtitle": "The talented professionals behind our success"
+    },
+    "overview": {
+      "title": "Our Collective",
+      "subtitle": "Each team member brings unique expertise and passion to every project"
+    },
+    "specializations": {
+      "title": "Areas of Expertise",
+      "subtitle": "Comprehensive skills across all aspects of digital marketing"
+    }
+  },
+  "blog": {
+    "hero": {
+      "title": "Our Blog",
+      "subtitle": "Insights, tips, and industry updates"
+    },
+    "categories": {
+      "title": "Browse by Category",
+      "marketing": "Marketing Tips",
+      "industry": "Industry News",
+      "caseStudies": "Case Studies",
+      "design": "Design Trends",
+      "business": "Business Growth"
+    },
+    "search": {
+      "placeholder": "Search articles...",
+      "noResults": "No articles found matching your search"
+    },
+    "article": {
+      "readTime": "min read",
+      "share": "Share this article",
+      "author": "Written by",
+      "published": "Published on",
+      "tags": "Tags",
+      "related": "Related Articles"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Get in Touch",
+      "subtitle": "Ready to start your project? Let's talk!"
+    },
+    "info": {
+      "title": "Contact Information",
+      "address": "Cairo, Egypt",
+      "phone": "+20 100 123 4567",
+      "email": "info@igniteteam.com",
+      "hours": "Mon-Fri: 9AM-6PM (GMT+2)"
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "subtitle": "Tell us about your project and we'll get back to you within 24 hours"
+    },
+    "freeTrial": {
+      "title": "Start Your Free Trial",
+      "subtitle": "Experience our services with a complimentary trial period"
+    }
+  }
+} 

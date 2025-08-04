@@ -1,0 +1,198 @@
+{
+  "contactForm": {
+    "title": "Send Us a Message",
+    "subtitle": "Tell us about your project and we'll get back to you within 24 hours",
+    "fields": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "company": "Company (Optional)",
+      "service": "Service Interest",
+      "budget": "Project Budget",
+      "message": "Message",
+      "preferredContact": "Preferred Contact Method"
+    },
+    "placeholders": {
+      "name": "Enter your full name",
+      "email": "Enter your email address",
+      "phone": "Enter your phone number",
+      "company": "Enter your company name",
+      "service": "Select a service",
+      "budget": "Select your budget range",
+      "message": "Tell us about your project...",
+      "preferredContact": "How would you like us to contact you?"
+    },
+    "options": {
+      "services": {
+        "digitalMarketing": "Digital Marketing",
+        "brandingDesign": "Branding & Design",
+        "webDevelopment": "Web Development",
+        "advertising": "Paid Advertising",
+        "consultation": "Consultation",
+        "other": "Other"
+      },
+      "budget": {
+        "under5k": "Under 5,000 EGP",
+        "5k10k": "5,000 - 10,000 EGP",
+        "10k25k": "10,000 - 25,000 EGP",
+        "25k50k": "25,000 - 50,000 EGP",
+        "over50k": "Over 50,000 EGP",
+        "notSure": "Not sure yet"
+      },
+      "contactMethods": {
+        "email": "Email",
+        "phone": "Phone",
+        "whatsapp": "WhatsApp",
+        "any": "Any method"
+      }
+    },
+    "submit": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent successfully! We'll get back to you within 24 hours.",
+    "error": "Error sending message. Please try again."
+  },
+  "freeTrialForm": {
+    "title": "Start Your Free Trial",
+    "subtitle": "Experience our services with a complimentary trial period",
+    "fields": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "service": "Service Type",
+      "description": "Brief Description"
+    },
+    "placeholders": {
+      "name": "Enter your full name",
+      "email": "Enter your email address",
+      "service": "Select a service",
+      "description": "Briefly describe your project or goals..."
+    },
+    "options": {
+      "services": {
+        "socialMedia": "Social Media Management",
+        "contentMarketing": "Content Marketing",
+        "seo": "SEO Optimization",
+        "googleAds": "Google Ads",
+        "facebookAds": "Facebook Ads",
+        "branding": "Branding & Design",
+        "webDesign": "Web Design",
+        "consultation": "Marketing Consultation"
+      }
+    },
+    "submit": "Start Free Trial",
+    "sending": "Submitting...",
+    "success": "Free trial request submitted! We'll contact you within 24 hours to discuss your project.",
+    "error": "Error submitting request. Please try again."
+  },
+  "newsletterForm": {
+    "title": "Stay Updated",
+    "subtitle": "Get the latest marketing tips and industry insights",
+    "placeholder": "Enter your email address",
+    "submit": "Subscribe",
+    "sending": "Subscribing...",
+    "success": "Successfully subscribed to our newsletter!",
+    "error": "Error subscribing. Please try again.",
+    "alreadySubscribed": "You're already subscribed to our newsletter!"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "phone": "Please enter a valid phone number",
+    "minLength": "Must be at least {{min}} characters",
+    "maxLength": "Must be no more than {{max}} characters",
+    "invalidFormat": "Invalid format",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidPhone": "Please enter a valid phone number",
+    "invalidUrl": "Please enter a valid URL",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "mustBeNumber": "Must be a number",
+    "mustBePositive": "Must be a positive number",
+    "mustBeInteger": "Must be a whole number",
+    "mustBeDate": "Must be a valid date",
+    "mustBeFutureDate": "Must be a future date",
+    "mustBePastDate": "Must be a past date",
+    "fileTooLarge": "File is too large. Maximum size is {{maxSize}}",
+    "invalidFileType": "Invalid file type. Allowed types: {{allowedTypes}}",
+    "tooManyFiles": "Too many files. Maximum is {{maxFiles}}"
+  },
+  "errors": {
+    "networkError": "Network error. Please check your connection and try again.",
+    "serverError": "Server error. Please try again later.",
+    "timeoutError": "Request timed out. Please try again.",
+    "unknownError": "An unknown error occurred. Please try again.",
+    "formValidationError": "Please correct the errors in the form.",
+    "requiredFieldsMissing": "Please fill in all required fields.",
+    "invalidData": "Invalid data provided. Please check your input."
+  },
+  "success": {
+    "formSubmitted": "Form submitted successfully!",
+    "dataSaved": "Data saved successfully!",
+    "changesApplied": "Changes applied successfully!",
+    "itemCreated": "Item created successfully!",
+    "itemUpdated": "Item updated successfully!",
+    "itemDeleted": "Item deleted successfully!",
+    "actionCompleted": "Action completed successfully!"
+  },
+  "confirmation": {
+    "deleteItem": "Are you sure you want to delete this item?",
+    "cancelChanges": "Are you sure you want to cancel? All unsaved changes will be lost.",
+    "leavePage": "Are you sure you want to leave this page? All unsaved changes will be lost.",
+    "confirmAction": "Are you sure you want to perform this action?",
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "ok": "OK"
+  },
+  "upload": {
+    "dragAndDrop": "Drag and drop files here",
+    "or": "or",
+    "chooseFile": "Choose File",
+    "browse": "Browse",
+    "uploading": "Uploading...",
+    "uploadSuccess": "File uploaded successfully!",
+    "uploadError": "Error uploading file. Please try again.",
+    "fileTooLarge": "File is too large",
+    "invalidFileType": "Invalid file type",
+    "maxFiles": "Maximum {{max}} files allowed",
+    "removeFile": "Remove file",
+    "preview": "Preview"
+  },
+  "search": {
+    "placeholder": "Search...",
+    "noResults": "No results found",
+    "searching": "Searching...",
+    "clearSearch": "Clear search",
+    "searchResults": "Search results",
+    "totalResults": "{{count}} result(s) found"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of",
+    "showing": "Showing",
+    "to": "to",
+    "ofTotal": "of {{total}}",
+    "itemsPerPage": "items per page",
+    "goToPage": "Go to page",
+    "firstPage": "First page",
+    "lastPage": "Last page"
+  },
+  "filters": {
+    "title": "Filters",
+    "clearAll": "Clear all filters",
+    "apply": "Apply filters",
+    "reset": "Reset",
+    "sortBy": "Sort by",
+    "orderBy": "Order by",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "dateRange": "Date range",
+    "priceRange": "Price range",
+    "category": "Category",
+    "status": "Status",
+    "type": "Type",
+    "location": "Location",
+    "tags": "Tags"
+  }
+} 
