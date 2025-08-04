@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { initializeGoogleSheets, getGoogleSheetsStats } from '@/lib/google-sheets';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Check if Google Sheets is configured
     if (!process.env.GOOGLE_SHEET_ID) {
@@ -43,10 +43,10 @@ export async function GET(request: NextRequest) {
       success: true,
       message: 'Google Sheets integration is working correctly',
       data: {
-        totalSubmissions: statsResult.data.totalSubmissions,
-        totalContacts: statsResult.data.totalContacts,
-        totalFreeTrials: statsResult.data.totalFreeTrials,
-        statusBreakdown: statsResult.data.statusBreakdown,
+        totalSubmissions: statsResult.data?.totalSubmissions || 0,
+        totalContacts: statsResult.data?.totalContacts || 0,
+        totalFreeTrials: statsResult.data?.totalFreeTrials || 0,
+        statusBreakdown: statsResult.data?.statusBreakdown || {},
       },
       config: {
         sheetId: process.env.GOOGLE_SHEET_ID,

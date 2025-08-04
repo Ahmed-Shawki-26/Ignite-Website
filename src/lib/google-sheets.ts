@@ -285,8 +285,8 @@ export async function getGoogleSheetsStats() {
       throw new Error('Failed to fetch data from Google Sheets');
     }
 
-    const contactSubmissions = contactResult.data;
-    const freeTrialRequests = freeTrialResult.data;
+    const contactSubmissions = contactResult.data || [];
+    const freeTrialRequests = freeTrialResult.data || [];
 
     // Calculate statistics
     const stats = {
@@ -329,14 +329,14 @@ export async function exportToCSV(type: 'contact' | 'free-trial' | 'all') {
     
     if (type === 'contact' || type === 'all') {
       const contactResult = await getContactSubmissions();
-      if (contactResult.success) {
+      if (contactResult.success && contactResult.data) {
         data = [...data, ...contactResult.data];
       }
     }
     
     if (type === 'free-trial' || type === 'all') {
       const freeTrialResult = await getFreeTrialRequests();
-      if (freeTrialResult.success) {
+      if (freeTrialResult.success && freeTrialResult.data) {
         data = [...data, ...freeTrialResult.data];
       }
     }
