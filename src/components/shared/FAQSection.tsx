@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, ChevronUp, Send, Phone, Mail, MapPin, MessageCircle, Clock } from 'lucide-react'
+import { ChevronDown, ChevronUp, Send } from 'lucide-react'
+import { motion } from 'framer-motion'
 import Button from '../ui/Button'
+import { useViewAnimation, fadeInUp, staggerContainer, scaleIn, fadeInLeft, fadeInRight } from '@/hooks/useViewAnimation'
 
 interface FAQSectionProps {
   locale: 'en' | 'ar';
@@ -18,6 +20,12 @@ const FAQSection = ({ locale }: FAQSectionProps) => {
     phone: '',
     question: ''
   })
+
+  // View animations
+  const { ref: sectionRef, controls: sectionControls } = useViewAnimation({ threshold: 0.1 })
+  const { ref: headerRef, controls: headerControls } = useViewAnimation({ threshold: 0.3 })
+  const { ref: faqRef, controls: faqControls } = useViewAnimation({ threshold: 0.2 })
+  const { ref: formRef, controls: formControls } = useViewAnimation({ threshold: 0.2 })
 
   const faqs = [
     {
@@ -82,7 +90,7 @@ const FAQSection = ({ locale }: FAQSectionProps) => {
   }
 
   return (
-    <section className="relative overflow-hidden w-full" style={{ paddingTop: '0', paddingBottom: '6rem' }}>
+    <section className="relative overflow-hidden w-full px-4 sm:px-6 lg:px-8" style={{ paddingTop: '0', paddingBottom: '6rem' }} ref={sectionRef}>
       {/* Seamless background continuation - no boundaries */}
       <div className="absolute inset-0 w-full" style={{ 
         background: 'linear-gradient(180deg, transparent 0%, rgba(26, 26, 26, 0.3) 20%, rgba(38, 38, 38, 0.6) 50%, rgba(0, 0, 0, 0.8) 80%, #000000 100%)',
@@ -126,82 +134,111 @@ const FAQSection = ({ locale }: FAQSectionProps) => {
         animationDelay: '2.5s'
       }}></div>
       
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 relative z-10" style={{ paddingTop: '4rem' }}>
+      <motion.div 
+        className="max-w-7xl mx-auto w-full relative z-10" 
+        style={{ paddingTop: '4rem' }}
+        variants={staggerContainer}
+        initial="hidden"
+        animate={sectionControls}
+      >
         {/* Section Header */}
-        <div className="text-center space-y-6 mb-16 animate-fade-in-up">
+        <motion.div 
+          className="text-center space-y-4 sm:space-y-6 mb-12 sm:mb-16"
+          ref={headerRef}
+          variants={fadeInUp}
+          initial="hidden"
+          animate={headerControls}
+        >
           <div className="inline-block">
-            <span className="text-red-500 font-semibold uppercase tracking-wider text-sm">
+            <span className="text-red-500 font-semibold uppercase tracking-wider text-xs sm:text-sm">
               {isArabic ? 'الأسئلة الشائعة' : "FAQ's"}
             </span>
           </div>
-          <h2 className="text-3xl lg:text-5xl font-bold text-brand-white leading-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-brand-white leading-tight">
             {isArabic ? 'الأسئلة' : 'Frequently Asked'}{' '}
             <span className="text-brand-red">{isArabic ? 'الشائعة' : 'Questions'}</span>
           </h2>
-          <p className="text-lg text-brand-gray-100 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-brand-gray-100 max-w-3xl mx-auto leading-relaxed px-4">
             {isArabic 
               ? 'اعثر على إجابات للأسئلة الشائعة حول خدماتنا وعملياتنا وكيف يمكننا مساعدتك في تحويل حضورك الرقمي.'
               : "Find answers to common questions about our services, processes, and how we can help transform your digital presence."
             }
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
           {/* FAQ List */}
-          <div className="space-y-4 animate-slide-in-left">
+          <motion.div 
+            className="space-y-3 sm:space-y-4"
+            ref={faqRef}
+            variants={fadeInLeft}
+            initial="hidden"
+            animate={faqControls}
+          >
 
             {faqs.map((faq, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="bg-brand-dark-200 rounded-lg border border-brand-dark-300 overflow-hidden transition-all duration-300 hover:border-red-500/50"
+                className="bg-brand-dark-200 rounded-lg border border-brand-dark-300 overflow-hidden transition-all duration-300 hover:border-red-500/50 hover:scale-105 cursor-pointer"
                 dir={isArabic ? 'rtl' : 'ltr'}
+                variants={fadeInUp}
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className={`w-full px-6 py-4 flex items-center justify-between hover:bg-brand-dark-300/50 transition-colors duration-300 cursor-pointer ${
+                  className={`w-full px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between hover:bg-brand-dark-300/50 transition-colors duration-300 cursor-pointer ${
                     isArabic ? 'text-right' : 'text-left'
                   }`}
                 >
-                  <span className={`text-brand-white font-semibold ${isArabic ? 'pl-4' : 'pr-4'}`}>
+                  <span className={`text-brand-white font-semibold text-sm sm:text-base ${isArabic ? 'pl-2 sm:pl-4' : 'pr-2 sm:pr-4'}`}>
                     {faq.question}
                   </span>
                   <div className="flex-shrink-0 text-red-500">
                     {openFAQ === index ? (
-                      <ChevronUp className="w-5 h-5" />
+                      <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5" />
                     ) : (
-                      <ChevronDown className="w-5 h-5" />
+                      <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
                     )}
                   </div>
                 </button>
 
                 {openFAQ === index && (
-                  <div className="px-6 pb-4 border-t border-brand-dark-300">
-                    <p className={`text-brand-gray-100 leading-relaxed pt-4 ${isArabic ? 'text-right' : 'text-left'}`}>
+                  <div className="px-4 sm:px-6 pb-4 border-t border-brand-dark-300">
+                    <p className={`text-brand-gray-100 leading-relaxed pt-3 sm:pt-4 text-sm sm:text-base ${isArabic ? 'text-right' : 'text-left'}`}>
                       {faq.answer}
                     </p>
                   </div>
                 )}
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Contact Form */}
-          <div className="animate-slide-in-right">
-            <div className="bg-brand-dark-200 rounded-2xl p-8 border border-brand-dark-300" dir={isArabic ? 'rtl' : 'ltr'}>
-              <h3 className={`text-2xl font-bold text-brand-white mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
+          <motion.div 
+            className=""
+            ref={formRef}
+            variants={fadeInRight}
+            initial="hidden"
+            animate={formControls}
+          >
+            <motion.div 
+              className="bg-brand-dark-200 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-brand-dark-300" 
+              dir={isArabic ? 'rtl' : 'ltr'}
+              variants={fadeInUp}
+            >
+              <h3 className={`text-xl sm:text-2xl font-bold text-brand-white mb-4 sm:mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
                 {isArabic ? 'اسأل سؤالك' : 'Ask Your Question'}
               </h3>
-              <p className={`text-brand-gray-100 mb-8 ${isArabic ? 'text-right' : 'text-left'}`}>
+              <p className={`text-brand-gray-100 mb-6 sm:mb-8 text-sm sm:text-base ${isArabic ? 'text-right' : 'text-left'}`}>
                 {isArabic 
                   ? 'لا تجد الإجابة التي تبحث عنها؟ أرسل لنا سؤالك وسنرد عليك خلال 24 ساعة.'
                   : "Can't find the answer you're looking for? Send us your question and we'll get back to you within 24 hours."
                 }
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="name" className={`block text-brand-white font-medium mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+                    <label htmlFor="name" className={`block text-brand-white font-medium mb-2 text-sm sm:text-base ${isArabic ? 'text-right' : 'text-left'}`}>
                       {isArabic ? 'الاسم' : 'Name'}
                     </label>
                     <input
@@ -211,13 +248,13 @@ const FAQSection = ({ locale }: FAQSectionProps) => {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-brand-dark-300 border border-brand-dark-400 rounded-lg text-brand-white placeholder-brand-gray-200 focus:outline-none focus:border-red-500 transition-colors duration-300"
+                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-brand-dark-300 border border-brand-dark-400 rounded-lg text-brand-white placeholder-brand-gray-200 focus:outline-none focus:border-red-500 transition-colors duration-300 text-sm sm:text-base"
                       placeholder={isArabic ? 'اسمك' : 'Your name'}
                       dir={isArabic ? 'rtl' : 'ltr'}
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className={`block text-brand-white font-medium mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+                    <label htmlFor="email" className={`block text-brand-white font-medium mb-2 text-sm sm:text-base ${isArabic ? 'text-right' : 'text-left'}`}>
                       {isArabic ? 'البريد الإلكتروني' : 'Email'}
                     </label>
                     <input
@@ -227,7 +264,7 @@ const FAQSection = ({ locale }: FAQSectionProps) => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-brand-dark-300 border border-brand-dark-400 rounded-lg text-brand-white placeholder-brand-gray-200 focus:outline-none focus:border-red-500 transition-colors duration-300"
+                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-brand-dark-300 border border-brand-dark-400 rounded-lg text-brand-white placeholder-brand-gray-200 focus:outline-none focus:border-red-500 transition-colors duration-300 text-sm sm:text-base"
                       placeholder={isArabic ? 'بريدك الإلكتروني' : 'Your email'}
                       dir={isArabic ? 'rtl' : 'ltr'}
                     />
@@ -235,7 +272,7 @@ const FAQSection = ({ locale }: FAQSectionProps) => {
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className={`block text-brand-white font-medium mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+                  <label htmlFor="phone" className={`block text-brand-white font-medium mb-2 text-sm sm:text-base ${isArabic ? 'text-right' : 'text-left'}`}>
                     {isArabic ? 'رقم الهاتف' : 'Phone Number'}
                   </label>
                   <input
@@ -244,14 +281,14 @@ const FAQSection = ({ locale }: FAQSectionProps) => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-brand-dark-300 border border-brand-dark-400 rounded-lg text-brand-white placeholder-brand-gray-200 focus:outline-none focus:border-brand-orange-100 transition-colors duration-300"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-brand-dark-300 border border-brand-dark-400 rounded-lg text-brand-white placeholder-brand-gray-200 focus:outline-none focus:border-brand-orange-100 transition-colors duration-300 text-sm sm:text-base"
                     placeholder={isArabic ? 'رقم هاتفك' : 'Your phone number'}
                     dir={isArabic ? 'rtl' : 'ltr'}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="question" className={`block text-brand-white font-medium mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+                  <label htmlFor="question" className={`block text-brand-white font-medium mb-2 text-sm sm:text-base ${isArabic ? 'text-right' : 'text-left'}`}>
                     {isArabic ? 'سؤالك' : 'Your Question'}
                   </label>
                   <textarea
@@ -261,7 +298,7 @@ const FAQSection = ({ locale }: FAQSectionProps) => {
                     onChange={handleInputChange}
                     required
                     rows={4}
-                    className="w-full px-4 py-3 bg-brand-dark-300 border border-brand-dark-400 rounded-lg text-brand-white placeholder-brand-gray-200 focus:outline-none focus:border-red-500 transition-colors duration-300 resize-none"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-brand-dark-300 border border-brand-dark-400 rounded-lg text-brand-white placeholder-brand-gray-200 focus:outline-none focus:border-red-500 transition-colors duration-300 resize-none text-sm sm:text-base"
                     placeholder={isArabic ? 'أخبرنا عن مشروعك أو اطرح سؤالك...' : 'Tell us about your project or ask your question...'}
                     dir={isArabic ? 'rtl' : 'ltr'}
                   />
@@ -273,149 +310,17 @@ const FAQSection = ({ locale }: FAQSectionProps) => {
                   size="lg"
                   customIcon="/icons/send.svg"
                   iconPosition={isArabic ? "left" : "right"}
-                  className="w-full"
+                  className="w-full text-sm sm:text-base"
                 >
                   {isArabic ? 'إرسال سؤالك' : 'Send Your Question'}
                 </Button>
               </form>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
 
-        {/*Contact Information */}
-        <div className="mt-16 max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4" style={{ color: '#FFFFFF' }}>
-              {isArabic ? 'معلومات التواصل' : 'Contact Information'}
-            </h3>
-            <p className="text-lg max-w-2xl mx-auto py-10" style={{ color: '#B3B3D2' }}>
-              {isArabic 
-                ? 'نحن هنا لمساعدتك. اختر الطريقة التي تفضلها للتواصل معنا.'
-                : 'We\'re here to help. Choose your preferred way to get in touch with us.'
-              }
-            </p>
-          </div>
 
-          {/* Contact Methods Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300" dir={isArabic ? 'rtl' : 'ltr'}>
-              <div className="flex items-center mb-4">
-                <div className={`bg-red-500/20 p-3 rounded-full ${isArabic ? 'ml-4' : 'mr-4'}`}>
-                  <Mail className="w-6 h-6" style={{ color: '#B8001F' }} />
-                </div>
-                <h4 className="text-lg font-semibold" style={{ color: '#FFFFFF' }}>
-                  {isArabic ? 'البريد الإلكتروني' : 'Email'}
-                </h4>
-              </div>
-              <p className="text-sm mb-2" style={{ color: '#B3B3D2' }}>
-                {isArabic ? 'للاستفسارات العامة' : 'For general inquiries'}
-              </p>
-              <a href="mailto:info@igniteteam.com" className="font-medium transition-all duration-300 hover:scale-105 hover:translate-x-1 inline-block" style={{ color: '#B8001F' }}>
-                info@igniteteam.com
-              </a>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300" dir={isArabic ? 'rtl' : 'ltr'}>
-              <div className="flex items-center mb-4">
-                <div className={`bg-red-500/20 p-3 rounded-full ${isArabic ? 'ml-4' : 'mr-4'}`}>
-                  <MessageCircle className="w-6 h-6" style={{ color: '#B8001F' }} />
-                </div>
-                <h4 className="text-lg font-semibold" style={{ color: '#FFFFFF' }}>
-                  {isArabic ? 'المشاريع الجديدة' : 'New Projects'}
-                </h4>
-              </div>
-              <p className="text-sm mb-2" style={{ color: '#B3B3D2' }}>
-                {isArabic ? 'للمشاريع الجديدة' : 'For new projects'}
-              </p>
-              <a href="mailto:projects@igniteteam.com" className="font-medium transition-all duration-300 hover:scale-105 hover:translate-x-1 inline-block" style={{ color: '#B8001F' }}>
-                projects@igniteteam.com
-              </a>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300" dir={isArabic ? 'rtl' : 'ltr'}>
-              <div className="flex items-center mb-4">
-                <div className={`bg-red-500/20 p-3 rounded-full ${isArabic ? 'ml-4' : 'mr-4'}`}>
-                  <Phone className="w-6 h-6" style={{ color: '#B8001F' }} />
-                </div>
-                <h4 className="text-lg font-semibold" style={{ color: '#FFFFFF' }}>
-                  {isArabic ? 'الهاتف' : 'Phone'}
-                </h4>
-              </div>
-              <p className="text-sm mb-2" style={{ color: '#B3B3D2' }}>
-                {isArabic ? 'اتصل بنا مباشرة' : 'Call us directly'}
-              </p>
-              <a href="tel:+201234567890" className="font-medium transition-all duration-300 hover:scale-105 hover:translate-x-1 inline-block" style={{ color: '#B8001F' }} dir="ltr">
-                +20 123 456 7890
-              </a>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300" dir={isArabic ? 'rtl' : 'ltr'}>
-              <div className="flex items-center mb-4">
-                <div className={`bg-red-500/20 p-3 rounded-full ${isArabic ? 'ml-4' : 'mr-4'}`}>
-                  <MapPin className="w-6 h-6" style={{ color: '#B8001F' }} />
-                </div>
-                <h4 className="text-lg font-semibold" style={{ color: '#FFFFFF' }}>
-                  {isArabic ? 'العنوان' : 'Address'}
-                </h4>
-              </div>
-              <p className="text-sm mb-2" style={{ color: '#B3B3D2' }}>
-                {isArabic ? 'مقرنا الرئيسي' : 'Our main office'}
-              </p>
-              <span className="font-medium" style={{ color: '#B8001F' }}>
-                {isArabic ? 'القاهرة، مصر' : 'Cairo, Egypt'}
-              </span>
-            </div>
-          </div>
-
-          {/* Business Hours */}
-          <div className="bg-gradient-to-r from-red-900/20 to-red-800/20 rounded-2xl p-8 border border-red-500/20" dir={isArabic ? 'rtl' : 'ltr'}>
-            <div className="flex items-start mb-6">
-              <div className={`bg-red-500/20 p-3 rounded-full ${isArabic ? 'ml-4' : 'mr-4'} flex-shrink-0`}>
-                <Clock className="w-6 h-6" style={{ color: '#B8001F' }} />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold mb-2" style={{ color: '#FFFFFF' }}>
-                  {isArabic ? 'ساعات العمل' : 'Business Hours'}
-                </h3>
-                <p style={{ color: '#B3B3D2' }}>
-                  {isArabic ? 'متى يمكنك الوصول إلينا' : 'When you can reach us'}
-                </p>
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="font-semibold mb-2" style={{ color: '#FFFFFF' }}>
-                  {isArabic ? 'أيام العمل' : 'Weekdays'}
-                </h4>
-                <p style={{ color: '#B3B3D2' }}>
-                  {isArabic ? 'الأحد - الخميس' : 'Sunday - Thursday'}
-                </p>
-                <p style={{ color: '#B3B3D2' }}>
-                  {isArabic ? '9:00 ص - 6:00 م' : '9:00 AM - 6:00 PM'}
-                </p>
-                <p style={{ color: '#B3B3D2' }}>
-                  {isArabic 
-                    ? 'نرد على جميع الرسائل خلال 24 ساعة'
-                    : 'We respond to all messages within 24 hours'
-                  }
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2" style={{ color: '#FFFFFF' }}>
-                  {isArabic ? 'عطلة نهاية الأسبوع' : 'Weekends'}
-                </h4>
-                <p style={{ color: '#B3B3D2' }}>
-                  {isArabic ? 'الجمعة - السبت' : 'Friday - Saturday'}
-                </p>
-                <p style={{ color: '#B3B3D2' }}>
-                  {isArabic ? 'مغلق' : 'Closed'}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

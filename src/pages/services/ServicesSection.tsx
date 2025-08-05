@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import {
   Megaphone,
   Palette,
@@ -8,22 +8,30 @@ import {
   Target,
   Search,
   TrendingUp,
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight
+  ArrowRight
 } from 'lucide-react'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
 import Button from '../../components/ui/Button'
+import { useLanguage } from '@/contexts/LanguageContext'
+import { useViewAnimation, fadeInUp, staggerContainer, scaleIn, fadeInLeft, fadeInRight } from '@/hooks/useViewAnimation'
 
 const ServicesSection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const [canScrollLeft, setCanScrollLeft] = useState(true)
-  const [canScrollRight, setCanScrollRight] = useState(true)
-  const [isAutoScrolling, setIsAutoScrolling] = useState(true)
   
-  // Get locale from URL path
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : ''
-  const locale = pathname.startsWith('/ar') ? 'ar' : 'en'
+  // Use the same language context as the rest of the app
+  const { locale, isRTL } = useLanguage()
   const isArabic = locale === 'ar'
+  
+
+  
+  
+
+  // View animations
+  const { ref: sectionRef, controls: sectionControls } = useViewAnimation({ threshold: 0.1 })
+  const { ref: headerRef, controls: headerControls } = useViewAnimation({ threshold: 0.3 })
+  const { ref: servicesRef, controls: servicesControls } = useViewAnimation({ threshold: 0.2 })
+  const { ref: ctaRef, controls: ctaControls } = useViewAnimation({ threshold: 0.3 })
 
   const services = [
     {
@@ -36,7 +44,7 @@ const ServicesSection = () => {
         ? ["إدارة وسائل التواصل الاجتماعي", "إعلانات جوجل وفيسبوك", "حملات التسويق عبر البريد الإلكتروني", "شراكات المؤثرين"]
         : ["Social Media Marketing", "Content Marketing", "Email Campaigns", "Influencer Marketing"],
       price: isArabic ? "يبدأ من ٢٥٠٠ جنيه" : "Starting from $1,500",
-      image: "/images/services/digital-marketing.jpg",
+      image: "https://picsum.photos/400/300?random=1",
       popular: false
     },
     {
@@ -49,7 +57,7 @@ const ServicesSection = () => {
         ? ["تصميم الشعار وهوية العلامة التجارية", "المواد التسويقية", "تصميم العبوات", "إرشادات العلامة التجارية"]
         : ["Logo Design", "Brand Identity", "Graphic Design", "Print Materials"],
       price: isArabic ? "يبدأ من ٣٠٠٠ جنيه" : "Starting from $2,500",
-      image: "/images/services/branding-design.jpg",
+      image: "https://picsum.photos/400/300?random=2",
       popular: true
     },
     {
@@ -62,7 +70,7 @@ const ServicesSection = () => {
         ? ["تصميم مواقع متجاوبة", "تطوير التجارة الإلكترونية", "تحسين محركات البحث", "تحسين الأداء"]
         : ["Custom Websites", "E-commerce Solutions", "Mobile Apps", "SEO Optimization"],
       price: isArabic ? "يبدأ من ٥٠٠٠ جنيه" : "Starting from $3,500",
-      image: "/images/services/web-development.jpg",
+      image: "https://picsum.photos/400/300?random=3",
       popular: false
     },
     {
@@ -75,7 +83,7 @@ const ServicesSection = () => {
         ? ["إدارة إعلانات جوجل", "إعلانات فيسبوك وإنستغرام", "إعلانات يوتيوب", "تحسين الحملات"]
         : ["Google Ads", "Facebook Advertising", "Instagram Campaigns", "YouTube Marketing"],
       price: isArabic ? "يبدأ من ٢٠٠٠ جنيه" : "Starting from $2,000",
-      image: "/images/services/advertising.jpg",
+      image: "https://picsum.photos/400/300?random=4",
       popular: false
     },
     {
@@ -88,7 +96,7 @@ const ServicesSection = () => {
         ? ["تحسين تقني لمحركات البحث", "تحسين الصفحات", "بناء الروابط", "تحسين محلي"]
         : ["Technical SEO", "On-Page Optimization", "Link Building", "Local SEO"],
       price: isArabic ? "يبدأ من ١٨٠٠ جنيه" : "Starting from $1,800",
-      image: "/images/services/seo-services.jpg",
+      image: "https://picsum.photos/400/300?random=5",
       popular: false
     },
     {
@@ -101,7 +109,7 @@ const ServicesSection = () => {
         ? ["استراتيجية المبيعات", "تنفيذ إدارة علاقات العملاء", "تدريب المبيعات", "تحليلات الأداء"]
         : ["Sales Strategy", "CRM Implementation", "Sales Training", "Performance Analytics"],
       price: isArabic ? "يبدأ من ٢٢٠٠ جنيه" : "Starting from $2,200",
-      image: "/images/services/sales-consulting.jpg",
+      image: "https://picsum.photos/400/300?random=6",
       popular: false
     }
   ]
@@ -109,243 +117,236 @@ const ServicesSection = () => {
   // Duplicate services for infinite scroll
   const duplicatedServices = [...services, ...services, ...services]
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current
-      const cardWidth = 280 // Card width
-      const gap = 12 // Gap between cards (gap-3 = 12px)
-      const scrollAmount = cardWidth + gap
-      
-      // For RTL, reverse the scroll direction
-      if (isArabic) {
-        if (direction === 'left') {
-          container.scrollBy({ left: scrollAmount, behavior: 'smooth' })
-        } else {
-          container.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
-        }
-      } else {
-        if (direction === 'left') {
-          container.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
-        } else {
-          container.scrollBy({ left: scrollAmount, behavior: 'smooth' })
-        }
-      }
-    }
-  }
-
-  const checkScrollPosition = () => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current
-      const maxScroll = container.scrollWidth - container.clientWidth
-      const currentScroll = container.scrollLeft
-      
-      // Reset position for infinite scroll
-      if (currentScroll >= maxScroll * 0.66) {
-        container.scrollTo({ left: maxScroll * 0.33, behavior: 'auto' })
-      } else if (currentScroll <= maxScroll * 0.05) {
-        container.scrollTo({ left: maxScroll * 0.33, behavior: 'auto' })
-      }
-    }
-  }
-
-  // Auto scroll functionality
-  useEffect(() => {
-    if (!isAutoScrolling) return
-
-    const interval = setInterval(() => {
-      if (scrollContainerRef.current) {
-        const container = scrollContainerRef.current
-        const cardWidth = 280
-        const gap = 12
-        const scrollAmount = cardWidth + gap
-        
-        // For RTL, scroll in the opposite direction
-        if (isArabic) {
-          container.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
-        } else {
-          container.scrollBy({ left: scrollAmount, behavior: 'smooth' })
-        }
-      }
-    }, 3000) // Scroll every 3 seconds
-
-    return () => clearInterval(interval)
-  }, [isAutoScrolling, isArabic])
-
-  // Handle scroll position reset for infinite scroll
+      // Simple and aggressive auto-scroll
   useEffect(() => {
     const container = scrollContainerRef.current
-    if (container) {
-      const handleScroll = () => {
-        checkScrollPosition()
-      }
+    if (!container) return
+
+              // Force start after a short delay
+     const startScroll = () => {
+       const isArabicPage = window.location.pathname.includes('/ar')
+       
+                               let scrollPosition = 0
+        const scrollSpeed = 2 // Slow speed
+        let lastTime = 0
+        const frameDelay = 0 // Only update every 50ms (20fps instead of 60fps)
+       
+                 const scroll = (currentTime: number) => {
+           if (currentTime - lastTime < frameDelay) {
+             requestAnimationFrame(scroll)
+             return
+           }
+           lastTime = currentTime
+           
+           const currentSpeed = scrollSpeed
+          
+          if (isArabicPage) {
+            scrollPosition -= currentSpeed
+            container.scrollLeft = Math.abs(scrollPosition)
+          } else {
+            scrollPosition += currentSpeed
+            container.scrollLeft = scrollPosition
+          }
+          
+          // Reset for infinite effect
+          const maxScroll = container.scrollWidth - container.clientWidth
+          if (scrollPosition > maxScroll) {
+            scrollPosition = 0
+          } else if (scrollPosition < -maxScroll) {
+            scrollPosition = 0
+          }
+          
+          requestAnimationFrame(scroll)
+        }
       
-      container.addEventListener('scroll', handleScroll)
-      
-      // Set initial position to middle section
-      setTimeout(() => {
-        const maxScroll = container.scrollWidth - container.clientWidth
-        container.scrollTo({ left: maxScroll * 0.33, behavior: 'auto' })
-      }, 100)
-      
-      return () => container.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+        requestAnimationFrame(scroll)
+     }
+
+                // Start immediately
+      setTimeout(startScroll, 500)
+    }, [])
+
+
 
   return (
-    <section id="services" className="section-padding bg-brand-black">
-      <div className="w-[90%] mx-auto">
-                 {/* Section Header */}
-         <div className="text-center space-y-6 mb-16 animate-fade-in-up">
-           <div className="inline-block">
-                         <span className="text-red-500 font-semibold uppercase tracking-wider text-sm">
-              {isArabic ? "خدماتنا" : "Our Services"}
+    <section id="services" className="section-padding bg-brand-black px-4 sm:px-6 lg:px-8" ref={sectionRef}>
+      <motion.div 
+        className="container-custom"
+        variants={staggerContainer}
+        initial="hidden"
+        animate={sectionControls}
+      >
+        {/* Section Header */}
+        <motion.div 
+          className="text-center space-y-4 sm:space-y-6 mb-12 sm:mb-16"
+          ref={headerRef}
+          variants={fadeInUp}
+          initial="hidden"
+          animate={headerControls}
+        >
+          <div className="inline-block">
+            <span className="text-red-500 font-semibold uppercase tracking-wider text-xs sm:text-sm">
+              {isArabic ? 'خدماتنا' : 'Our Services'}
             </span>
-           </div>
-           <h2 className="text-3xl lg:text-5xl font-bold text-brand-white leading-tight">
-             {isArabic ? "حلول تسويقية" : "Comprehensive Marketing"}{' '}
-             <span className="text-brand-red">{isArabic ? "شاملة" : "Solutions"}</span>
-           </h2>
-           <p className="text-lg text-brand-gray-100 max-w-3xl mx-auto leading-relaxed">
-             {isArabic 
-               ? "من الاستراتيجية إلى التنفيذ، نقدم خدمات تسويقية شاملة مصممة لمساعدة عملك على الازدهار في المشهد الرقمي."
-               : "From strategy to execution, we provide end-to-end marketing services tailored to help your business thrive in the digital landscape."
-             }
-           </p>
-         </div>
+          </div>
+          <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-brand-white leading-tight">
+            {isArabic ? 'حلول تسويقية' : 'Marketing Solutions'}{' '}
+            <span className="text-red-500">{isArabic ? 'شاملة' : 'That Drive Results'}</span>
+          </h2>
+          <p className="text-base sm:text-lg text-brand-gray-100 max-w-3xl mx-auto leading-relaxed px-4">
+            {isArabic 
+              ? "من الاستراتيجية إلى التنفيذ، نقدم خدمات تسويقية شاملة مصممة لمساعدة عملك على الازدهار في المشهد الرقمي."
+              : "From strategy to execution, we provide end-to-end marketing services tailored to help your business thrive in the digital landscape."
+            }
+          </p>
+        </motion.div>
 
-                 {/* Scroll Navigation */}
-         <div className="flex justify-center items-center gap-8 mb-8">
-                      <button
-              onClick={() => {
-                setIsAutoScrolling(false)
-                scroll('right')
-              }}
-              className="w-12 h-12 bg-brand-dark-100 border border-brand-dark-300 rounded-full flex items-center justify-center text-brand-white hover:bg-red-600 hover:text-brand-white hover:scale-110 hover:shadow-sm hover:shadow-red-500/25 transition-all duration-300 cursor-pointer"
-            >
-             {isArabic ? <ChevronRight className="w-6 h-6" /> : <ChevronLeft className="w-6 h-6" />}
-           </button>
-           
-                      <button
-              onClick={() => {
-                setIsAutoScrolling(false)
-                scroll('left')
-              }}
-              className="w-12 h-12 bg-brand-dark-100 border border-brand-dark-300 rounded-full flex items-center justify-center text-brand-white hover:bg-red-600 hover:text-brand-white hover:scale-110 hover:shadow-sm hover:shadow-red-500/25 transition-all duration-300 cursor-pointer"
-            >
-             {isArabic ? <ChevronLeft className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
-           </button>
-         </div>
-
-        {/* Services Container with Scroll and Fade Gradients */}
-        <div className="relative">
+                 {/* Services Container with Scroll and Fade Gradients */}
+         <motion.div 
+           className="relative"
+           ref={servicesRef}
+           variants={fadeInUp}
+           initial="hidden"
+           animate={servicesControls}
+           style={{ overflow: 'visible !important' }} // Ensure parent doesn't clip
+         >
           {/* Left Fade Gradient */}
-          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-brand-black to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-brand-black to-transparent z-10 pointer-events-none"></div>
           
           {/* Right Fade Gradient */}
-          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-brand-black to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-l from-brand-black to-transparent z-10 pointer-events-none"></div>
 
-          {/* Services Scroll Container */}
-          <div
-            ref={scrollContainerRef}
-            onMouseEnter={() => setIsAutoScrolling(false)}
-            onMouseLeave={() => setIsAutoScrolling(true)}
-            className="flex gap-3 overflow-x-auto scrollbar-hide px-1 py-8"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
+                     {/* Services Scroll Container */}
+                       <motion.div
+              ref={scrollContainerRef}
+              className="flex gap-2 sm:gap-3 overflow-x-auto scrollbar-hide px-1 py-6 sm:py-8 ltr"
+              style={{ 
+                scrollbarWidth: 'none', 
+                msOverflowStyle: 'none',
+                overflow: 'auto !important' // Force override any global overflow hidden
+              }}
+              variants={staggerContainer}
+            >
             {duplicatedServices.map((service, index) => (
-              <div
+              <motion.div
                 key={index}
-                                 className={`relative bg-brand-dark-100 rounded-2xl p-6 border transition-all duration-300 hover:transform hover:scale-105 flex-shrink-0 flex flex-col ${
-                   service.popular
-                     ? 'border-yellow-400 shadow-lg shadow-yellow-500/20 bg-gradient-to-br from-yellow-400/10 via-yellow-500/5 to-yellow-600/10'
-                     : 'border-brand-dark-300 hover:border-yellow-400/50 hover:bg-gradient-to-br hover:from-yellow-400/5 hover:via-yellow-500/3 hover:to-yellow-600/5'
-                 } animate-fade-in-up`}
-                style={{ 
-                  animationDelay: `${(index % services.length) * 150}ms`,
-                  width: 'calc((90vw - 4 * 12px) / 5)', // Exactly 5 cards fit
-                  minWidth: '280px',
-                  height: '450px'
-                }}
+                className={`relative bg-brand-dark-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 border transition-all duration-300 flex-shrink-0 flex flex-col hover:scale-105 ${
+                  service.popular
+                    ? 'border-yellow-400 shadow-lg shadow-yellow-500/20 bg-gradient-to-br from-yellow-400/10 via-yellow-500/5 to-yellow-600/10'
+                    : 'border-brand-dark-300 hover:border-yellow-400/50 hover:bg-gradient-to-br hover:from-yellow-400/5 hover:via-yellow-500/3 hover:to-yellow-600/5'
+                }`}
+                                 style={{ 
+                   width: '320px', // Increased width for better visibility
+                   minWidth: '320px',
+                   maxWidth: '320px',
+                   height: '520px'
+                 }}
+                variants={fadeInUp}
               >
-                                 {/* Popular Badge */}
-                 {service.popular && (
-                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                                                                                       <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-brand-black text-xs font-bold px-4 py-2 rounded-full shadow-sm shadow-yellow-500/25">
-                        {isArabic ? "الأكثر شعبية" : "Most Popular"}
-                      </span>
-                   </div>
-                 )}
+                {/* Popular Badge */}
+                {service.popular && (
+                  <motion.div 
+                    className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2"
+                    initial={{ scale: 0, y: 20 }}
+                    animate={{ scale: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-brand-black text-xs font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-sm shadow-yellow-500/25">
+                      {isArabic ? "الأكثر شعبية" : "Most Popular"}
+                    </span>
+                  </motion.div>
+                )}
 
                 {/* Service Image */}
-                <div className="mb-4 w-full h-32 bg-brand-dark-200 rounded-lg overflow-hidden">
-                                     <div className="w-full h-full bg-gradient-to-br from-red-500/20 to-red-600/20 flex items-center justify-center">
-                     <div className="text-red-500 opacity-50">
-                       {service.icon}
-                     </div>
-                   </div>
+                <div className="mb-3 sm:mb-4 w-full h-40 sm:h-56 lg:h-64 bg-brand-dark-200 rounded-lg overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    width={400}
+                    height={300}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 {/* Service Content with Icon next to Title */}
-                <div className="space-y-3 mb-4">
-                  <div className="flex items-center gap-3">
-                                         <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center text-red-500 flex-shrink-0">
-                       {service.icon}
-                     </div>
-                    <h3 className="text-lg font-bold text-brand-white">
+                <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-500/20 rounded-lg flex items-center justify-center text-red-500 flex-shrink-0">
+                      <div className="w-4 h-4 sm:w-5 sm:h-5">
+                        {service.icon}
+                      </div>
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold text-brand-white">
                       {service.title}
                     </h3>
                   </div>
-                  <p className="text-brand-gray-100 text-sm leading-relaxed line-clamp-2">
+                  <p className="text-brand-gray-100 text-xs sm:text-sm leading-relaxed line-clamp-2">
                     {service.description}
                   </p>
                 </div>
 
                 {/* Features List */}
-                <div className="space-y-1.5 mb-4 flex-1">
+                <div className="space-y-1 sm:space-y-1.5 mb-3 sm:mb-4 flex-1">
                   {service.features.map((feature, featureIndex) => (
                     <div key={featureIndex} className="flex items-center space-x-2">
-                      <div className="w-1.5 h-1.5 bg-red-500 rounded-full flex-shrink-0"></div>
-                      <span className="text-brand-gray-100 text-sm">{feature}</span>
+                      <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-red-500 rounded-full flex-shrink-0"></div>
+                      <span className="text-brand-gray-100 text-xs sm:text-sm">{feature}</span>
                     </div>
                   ))}
                 </div>
 
                 {/* Price */}
-                <div className="mb-4">
-                  <span className="text-brand-white font-bold text-lg">{service.price}</span>
+                <div className="mb-3 sm:mb-4">
+                  <span className="text-brand-white font-bold text-base sm:text-lg">{service.price}</span>
                 </div>
 
-                                 {/* CTA Button */}
-                                   <button className="w-full bg-brand-dark-200 hover:bg-red-600 text-brand-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 hover:transform hover:translate-y-[-2px] hover:shadow-lg hover:shadow-red-500/25 mt-auto group cursor-pointer">
-                   <span className="text-brand-white group-hover:!text-red-500 transition-colors duration-300">{isArabic ? "ابدأ الآن" : "Get Started"}</span>
-                   {isArabic ? (
-                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-[-1] rotate-180 group-hover:text-red-500" />
-                   ) : (
-                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-red-500" />
-                   )}
-                 </button>
-              </div>
+                {/* CTA Button */}
+                <motion.button 
+                  className="w-full bg-brand-dark-200 hover:bg-red-600 text-brand-white font-semibold py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 hover:shadow-lg hover:shadow-red-500/25 hover:scale-105 mt-auto group cursor-pointer"
+                >
+                  <span className="text-brand-white group-hover:!text-red-500 transition-colors duration-300 text-sm sm:text-base">{isArabic ? "ابدأ الآن" : "Get Started"}</span>
+                  {isArabic ? (
+                    <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-[-1] rotate-180 group-hover:text-red-500" />
+                  ) : (
+                    <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-red-500" />
+                  )}
+                </motion.button>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-                 {/* Bottom CTA */}
-         <div className="text-center mt-16 animate-fade-in-up">
-           <p className="text-brand-gray-100 mb-6">
-             {isArabic 
-               ? "تحتاج حل مخصص؟ دعنا نناقش متطلباتك المحددة."
-               : "Need a custom solution? Let&apos;s discuss your specific requirements."
-             }
-           </p>
-                       <Button
-                         variant="animated"
-                         size="lg"
-                         onClick={() => console.log('Schedule a Consultation clicked!')}
-                       >
-                         {isArabic ? "جدولة استشارة" : "Schedule a Consultation"}
-                       </Button>
-         </div>
-      </div>
+        {/* Bottom CTA */}
+        <motion.div 
+          className="text-center mt-12 sm:mt-16"
+          ref={ctaRef}
+          variants={fadeInUp}
+          initial="hidden"
+          animate={ctaControls}
+        >
+          <motion.p 
+            className="text-sm sm:text-base text-brand-gray-100 mb-4 sm:mb-6 px-4"
+            variants={fadeInUp}
+          >
+            {isArabic 
+              ? "تحتاج حل مخصص؟ دعنا نناقش متطلباتك المحددة."
+              : "Need a custom solution? Let&apos;s discuss your specific requirements."
+            }
+          </motion.p>
+          <motion.div
+            variants={scaleIn}
+          >
+            <Button
+              variant="animated"
+              size="lg"
+              onClick={() => console.log('Schedule a Consultation clicked!')}
+              className="hover:scale-105 transition-transform duration-300 w-full sm:w-auto"
+            >
+              {isArabic ? "جدولة استشارة" : "Schedule a Consultation"}
+            </Button>
+          </motion.div>
+        </motion.div>
+      </motion.div>
     </section>
   )
 }

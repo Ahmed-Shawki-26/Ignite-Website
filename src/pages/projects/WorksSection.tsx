@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { ExternalLink, Eye } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { useViewAnimation, fadeInUp, staggerContainer, scaleIn } from '@/hooks/useViewAnimation'
 
 const WorksSection = () => {
   // Get locale from URL path
@@ -10,6 +12,13 @@ const WorksSection = () => {
   const isArabic = locale === 'ar'
 
   const [activeFilter, setActiveFilter] = useState(isArabic ? 'الكل' : 'All')
+
+  // View animations
+  const { ref: sectionRef, controls: sectionControls } = useViewAnimation({ threshold: 0.1 })
+  const { ref: headerRef, controls: headerControls } = useViewAnimation({ threshold: 0.3 })
+  const { ref: filtersRef, controls: filtersControls } = useViewAnimation({ threshold: 0.2 })
+  const { ref: projectsRef, controls: projectsControls } = useViewAnimation({ threshold: 0.2 })
+  const { ref: ctaRef, controls: ctaControls } = useViewAnimation({ threshold: 0.3 })
 
   const filters = isArabic 
     ? ['الكل', 'تصميم المواقع', 'التجارة الإلكترونية', 'العلامة التجارية', 'تطبيق الهاتف', 'التسويق الرقمي']
@@ -90,116 +99,158 @@ const WorksSection = () => {
       })
 
   return (
-    <section id="projects" className="section-padding bg-brand-dark-100">
-      <div className="container-custom">
+    <section id="projects" className="section-padding bg-brand-dark-100 px-4 sm:px-6 lg:px-8" ref={sectionRef}>
+      <motion.div 
+        className="container-custom"
+        variants={staggerContainer}
+        initial="hidden"
+        animate={sectionControls}
+      >
         {/* Section Header */}
-        <div className="text-center space-y-6 mb-16 animate-fade-in-up">
+        <motion.div 
+          className="text-center space-y-4 sm:space-y-6 mb-12 sm:mb-16"
+          ref={headerRef}
+          variants={fadeInUp}
+          initial="hidden"
+          animate={headerControls}
+        >
           <div className="inline-block">
-            <span className="text-red-500 font-semibold uppercase tracking-wider text-sm">
+            <span className="text-red-500 font-semibold uppercase tracking-wider text-xs sm:text-sm">
               {isArabic ? 'أعمالنا' : 'Our Portfolio'}
             </span>
           </div>
-          <h2 className="text-3xl lg:text-5xl font-bold text-brand-white leading-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-brand-white leading-tight">
             {isArabic ? 'أحدث' : 'Our Latest'}{' '}
             <span className="text-brand-red">{isArabic ? 'أعمالنا' : 'Work'}</span>
           </h2>
-          <p className="text-lg text-brand-gray-100 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-brand-gray-100 max-w-3xl mx-auto leading-relaxed px-4">
             {isArabic 
               ? 'استكشف مشاريعنا الحديثة وشاهد كيف ساعدنا الشركات على تحويل حضورها الرقمي وتحقيق نتائج رائعة.'
               : "Explore our recent projects and see how we've helped businesses transform their digital presence and achieve remarkable results."
             }
           </p>
-        </div>
+        </motion.div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12 animate-fade-in-up">
+        <motion.div 
+          className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12"
+          ref={filtersRef}
+          variants={fadeInUp}
+          initial="hidden"
+          animate={filtersControls}
+        >
           {filters.map((filter) => (
-            <button
+            <motion.button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-sm cursor-pointer ${
+              className={`px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-sm cursor-pointer text-xs sm:text-sm ${
                 activeFilter === filter
                   ? 'bg-red-600 text-brand-white hover:bg-red-700 hover:shadow-red-500/25'
                   : 'bg-brand-dark-200 text-brand-white hover:bg-red-500/20 hover:text-red-500 hover:shadow-red-500/10 hover:border hover:border-red-500/30'
               }`}
             >
               {filter}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16"
+          ref={projectsRef}
+          variants={staggerContainer}
+          initial="hidden"
+          animate={projectsControls}
+        >
           {filteredProjects.map((project, index) => (
-            <div
+            <motion.div
               key={project.id}
-              className="group bg-brand-dark-200 rounded-2xl overflow-hidden border border-brand-dark-300 hover:border-red-500/50 transition-all duration-300 hover:transform hover:scale-105 animate-fade-in-up"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="group bg-brand-dark-200 rounded-xl sm:rounded-2xl overflow-hidden border border-brand-dark-300 hover:border-red-500/50 transition-all duration-300 hover:scale-105"
+              variants={fadeInUp}
             >
               {/* Project Image */}
               <div className="relative overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-40 sm:h-48 object-cover transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-brand-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="flex space-x-4">
-                    <button className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-brand-white hover:bg-red-700 transition-colors duration-300 cursor-pointer">
-                      <Eye className="w-5 h-5" />
+                  <div className="flex space-x-2 sm:space-x-4">
+                    <button className="w-10 h-10 sm:w-12 sm:h-12 bg-red-600 rounded-full flex items-center justify-center text-brand-white hover:bg-red-700 transition-colors duration-300 hover:scale-110 cursor-pointer">
+                      <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
-                    <button className="w-12 h-12 bg-brand-white rounded-full flex items-center justify-center text-brand-black hover:bg-brand-gray-100 transition-colors duration-300 cursor-pointer">
-                      <ExternalLink className="w-5 h-5" />
+                    <button className="w-10 h-10 sm:w-12 sm:h-12 bg-brand-white rounded-full flex items-center justify-center text-brand-black hover:bg-brand-gray-100 transition-colors duration-300 hover:scale-110 cursor-pointer">
+                      <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                   </div>
                 </div>
                 {project.featured && (
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">
+                  <motion.div 
+                    className="absolute top-3 sm:top-4 left-3 sm:left-4"
+                    initial={{ scale: 0, y: 20 }}
+                    animate={{ scale: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <span className="bg-brand-red text-white text-xs font-bold px-2 sm:px-3 py-1 rounded-full">
                       {isArabic ? 'مميز' : 'Featured'}
                     </span>
-                  </div>
+                  </motion.div>
                 )}
               </div>
 
               {/* Project Content */}
-              <div className="p-6 space-y-4">
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-brand-white group-hover:text-red-500 transition-colors duration-300">
+              <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
+                <div className="space-y-1 sm:space-y-2">
+                  <h3 className="text-base sm:text-lg font-bold text-brand-white group-hover:text-red-500 transition-colors duration-300">
                     {project.title}
                   </h3>
-                  <p className="text-red-500 text-sm font-medium">
+                  <p className="text-red-500 text-xs sm:text-sm font-medium">
                     {project.client}
                   </p>
                 </div>
 
-                <p className="text-brand-gray-100 text-sm leading-relaxed">
+                <p className="text-brand-gray-100 text-xs sm:text-sm leading-relaxed">
                   {project.description}
                 </p>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1 sm:gap-2">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 bg-red-500/20 text-red-500 text-xs font-medium rounded-full"
+                      className="px-2 sm:px-3 py-1 bg-red-500/20 text-red-500 text-xs font-medium rounded-full"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* View All Projects CTA */}
-        <div className="text-center animate-fade-in-up">
-          <button className="btn-secondary bg-red-600 hover:bg-red-700 text-white cursor-pointer">
+        <motion.div 
+          className="text-center"
+          ref={ctaRef}
+          variants={fadeInUp}
+          initial="hidden"
+          animate={ctaControls}
+        >
+          <motion.button 
+            className="btn-secondary bg-red-600 hover:bg-red-700 text-white cursor-pointer w-full sm:w-auto text-sm sm:text-base px-6 py-3 sm:py-4"
+            whileHover={{ 
+              scale: 1.05, 
+              y: -2,
+              transition: { duration: 0.2 }
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
             {isArabic ? 'عرض جميع المشاريع' : 'View All Projects'}
-          </button>
-        </div>
-      </div>
+          </motion.button>
+        </motion.div>
+      </motion.div>
     </section>
   )
 }

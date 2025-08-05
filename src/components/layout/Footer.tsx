@@ -12,6 +12,7 @@ import {
   Send,
   ArrowUp
 } from 'lucide-react'
+import Image from 'next/image'
 import Button from '../ui/Button'
 
 interface FooterProps {
@@ -60,17 +61,24 @@ const Footer = ({ locale }: FooterProps) => {
   }
 
   return (
-    <footer id="contact" className="bg-brand-black border-t border-brand-dark-300" dir={isArabic ? 'rtl' : 'ltr'}>
+    <footer id="contact" className="bg-brand-black border-t border-brand-dark-300 px-4 sm:px-6 lg:px-8" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Main Footer Content */}
-      <div className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      <div className="container-custom py-12 sm:py-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12">
           {/* Company Info */}
-          <div className="space-y-6">
+          <div className="col-span-2 lg:col-span-1 space-y-4 sm:space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-brand-red mb-4">
-                Ignite
-              </h1>
-              <p className="text-brand-gray-100 leading-relaxed">
+              <div className="mb-4">
+                <Image
+                  src="/Logo/8.png"
+                  alt="Ignite Logo"
+                  width={120}
+                  height={40}
+                  className="h-6 sm:h-8 w-auto"
+                  priority
+                />
+              </div>
+              <p className="text-sm sm:text-base text-brand-gray-100 leading-relaxed">
                 {isArabic 
                   ? 'مجموعة من خبراء التسويق ذوي الخبرة من مصر، نحول الأعمال من خلال الحلول الرقمية المبتكرة.'
                   : 'A collective of experienced marketing professionals from Egypt, transforming businesses through innovative digital solutions.'
@@ -78,40 +86,40 @@ const Footer = ({ locale }: FooterProps) => {
               </p>
             </div>
 
-                         {/* Contact Info */}
-             <div className="space-y-3">
-               <div className="flex items-center space-x-3">
-                 <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
-                   <Phone className="w-4 h-4 text-red-500" />
-                 </div>
-                 <span className="text-brand-gray-100" dir="ltr">+20 123 456 7890</span>
-               </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
-                  <Mail className="w-4 h-4 text-red-500" />
+            {/* Contact Info */}
+            <div className="space-y-2 sm:space-y-3">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
+                  <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
                 </div>
-                <span className="text-brand-gray-100">info@igniteteam.com</span>
+                <span className="text-xs sm:text-sm text-brand-gray-100" dir="ltr">+20 123 456 7890</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
-                  <MapPin className="w-4 h-4 text-red-500" />
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
+                  <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
                 </div>
-                <span className="text-brand-gray-100">{isArabic ? 'القاهرة، مصر' : 'Cairo, Egypt'}</span>
+                <span className="text-xs sm:text-sm text-brand-gray-100">info@igniteteam.com</span>
+              </div>
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
+                  <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                </div>
+                <span className="text-xs sm:text-sm text-brand-gray-100">{isArabic ? 'القاهرة، مصر' : 'Cairo, Egypt'}</span>
               </div>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-bold text-brand-white mb-6">
+            <h3 className="text-lg sm:text-xl font-bold text-brand-white mb-4 sm:mb-6">
               {isArabic ? 'روابط سريعة' : 'Quick Links'}
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2 sm:space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-brand-gray-100 hover:text-red-500 transition-colors duration-300"
+                    className="text-xs sm:text-sm text-brand-gray-100 hover:text-red-500 transition-colors duration-300"
                   >
                     {link.label}
                   </a>
@@ -122,15 +130,15 @@ const Footer = ({ locale }: FooterProps) => {
 
           {/* Services */}
           <div>
-            <h3 className="text-xl font-bold text-brand-white mb-6">
+            <h3 className="text-lg sm:text-xl font-bold text-brand-white mb-4 sm:mb-6">
               {isArabic ? 'الخدمات' : 'Services'}
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2 sm:space-y-3">
               {services.map((service) => (
                 <li key={service.label}>
                   <a
                     href={service.href}
-                    className="text-brand-gray-100 hover:text-red-500 transition-colors duration-300"
+                    className="text-xs sm:text-sm text-brand-gray-100 hover:text-red-500 transition-colors duration-300"
                   >
                     {service.label}
                   </a>
@@ -140,18 +148,18 @@ const Footer = ({ locale }: FooterProps) => {
           </div>
 
           {/* Newsletter */}
-          <div>
-            <h3 className="text-xl font-bold text-brand-white mb-6">
+          <div className="col-span-2 lg:col-span-1">
+            <h3 className="text-lg sm:text-xl font-bold text-brand-white mb-4 sm:mb-6">
               {isArabic ? 'ابق على اطلاع' : 'Stay Updated'}
             </h3>
-            <p className="text-brand-gray-100 mb-4">
+            <p className="text-xs sm:text-sm text-brand-gray-100 mb-4">
               {isArabic 
                 ? 'اشترك في نشرتنا الإخبارية للحصول على أحدث الرؤى ونصائح التسويق.'
                 : 'Subscribe to our newsletter for the latest insights and marketing tips.'
               }
             </p>
 
-            <form onSubmit={handleNewsletterSubmit} className="space-y-4">
+            <form onSubmit={handleNewsletterSubmit} className="space-y-3 sm:space-y-4">
               <div className="relative">
                 <input
                   type="email"
@@ -159,7 +167,7 @@ const Footer = ({ locale }: FooterProps) => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={isArabic ? 'أدخل بريدك الإلكتروني' : 'Enter your email'}
                   required
-                  className="w-full px-4 py-3 bg-brand-dark-200 border border-brand-dark-300 rounded-lg text-brand-white placeholder-brand-gray-200 focus:outline-none focus:border-red-500 transition-colors duration-300"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-brand-dark-200 border border-brand-dark-300 rounded-lg text-brand-white placeholder-brand-gray-200 focus:outline-none focus:border-red-500 transition-colors duration-300 text-xs sm:text-sm"
                   dir={isArabic ? 'rtl' : 'ltr'}
                 />
               </div>
@@ -169,24 +177,26 @@ const Footer = ({ locale }: FooterProps) => {
                 size="lg"
                 customIcon="/icons/send.svg"
                 iconPosition={isArabic ? "left" : "right"}
-                className="w-full"
+                className="w-full text-xs sm:text-sm"
               >
                 {isArabic ? 'اشتراك' : 'Subscribe'}
               </Button>
             </form>
 
             {/* Social Links */}
-            <div className="mt-6">
-              <p className="text-brand-gray-100 mb-4">{isArabic ? 'تابعنا:' : 'Follow us:'}</p>
-              <div className="flex space-x-3">
+            <div className="mt-4 sm:mt-6">
+              <p className="text-xs sm:text-sm text-brand-gray-100 mb-3 sm:mb-4">{isArabic ? 'تابعنا:' : 'Follow us:'}</p>
+              <div className="flex space-x-2 sm:space-x-3">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
-                    className="w-10 h-10 bg-brand-dark-200 hover:bg-red-600 rounded-lg flex items-center justify-center text-brand-white hover:text-brand-white transition-all duration-300 hover:scale-110"
+                    className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-dark-200 hover:bg-red-600 rounded-lg flex items-center justify-center text-brand-white hover:text-brand-white transition-all duration-300"
                     aria-label={social.label}
                   >
-                    {social.icon}
+                    <div className="w-4 h-4 sm:w-5 sm:h-5">
+                      {social.icon}
+                    </div>
                   </a>
                 ))}
               </div>
@@ -197,23 +207,23 @@ const Footer = ({ locale }: FooterProps) => {
 
       {/* Bottom Footer */}
       <div className="border-t border-brand-dark-300">
-        <div className="container-custom py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-            <div className="text-brand-gray-200 text-sm">
+        <div className="container-custom py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
+            <div className="text-brand-gray-200 text-xs sm:text-sm text-center sm:text-left">
               {isArabic 
                 ? '© 2024 فريق إجنيت. جميع الحقوق محفوظة.'
                 : '© 2024 Ignite Team. All rights reserved.'
               }
             </div>
 
-            <div className="flex items-center space-x-6">
-              <a href="#" className="text-brand-gray-200 hover:text-red-500 text-sm transition-colors duration-300">
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+              <a href="#" className="text-brand-gray-200 hover:text-red-500 text-xs sm:text-sm transition-colors duration-300">
                 {isArabic ? 'سياسة الخصوصية' : 'Privacy Policy'}
               </a>
-              <a href="#" className="text-brand-gray-200 hover:text-red-500 text-sm transition-colors duration-300">
+              <a href="#" className="text-brand-gray-200 hover:text-red-500 text-xs sm:text-sm transition-colors duration-300">
                 {isArabic ? 'شروط الخدمة' : 'Terms of Service'}
               </a>
-              <a href="#" className="text-brand-gray-200 hover:text-red-500 text-sm transition-colors duration-300">
+              <a href="#" className="text-brand-gray-200 hover:text-red-500 text-xs sm:text-sm transition-colors duration-300">
                 {isArabic ? 'سياسة ملفات تعريف الارتباط' : 'Cookie Policy'}
               </a>
             </div>
@@ -221,16 +231,14 @@ const Footer = ({ locale }: FooterProps) => {
             {/* Scroll to Top Button */}
             <button
               onClick={scrollToTop}
-              className="w-10 h-10 bg-brand-red hover:bg-red-700 rounded-lg flex items-center justify-center text-brand-white transition-all duration-300 hover:scale-110 cursor-pointer"
+              className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-red hover:bg-red-700 rounded-lg flex items-center justify-center text-brand-white transition-all duration-300 cursor-pointer"
               aria-label={isArabic ? 'الانتقال إلى الأعلى' : 'Scroll to top'}
             >
-              <ArrowUp className="w-5 h-5" />
+              <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
       </div>
-
-
     </footer>
   )
 }
